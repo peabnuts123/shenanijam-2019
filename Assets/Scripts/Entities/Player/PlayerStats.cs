@@ -1,10 +1,6 @@
 using UnityEngine;
 using Zenject;
 
-// public struct PlayerStatObj
-// {
-
-// }
 
 public class PlayerStats : MonoBehaviour
 {
@@ -12,8 +8,6 @@ public class PlayerStats : MonoBehaviour
     [Inject]
     Damageable damageable;
 
-    // Private state
-    // private PlayerStatObj stats;
     [SerializeField]
     private int _attack1Strength = 1;
     [SerializeField]

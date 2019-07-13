@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour
 
     // Public config
     public float speed = 5F;
-    public float damageModifier = 1F;
 
     // Private references
     [Inject]
@@ -93,34 +92,61 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateAttacks()
     {
+
         if (Input.GetButtonDown("Action1"))
         {
             MagicAttack attack = Instantiate(MagicAttackPrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward));
-            attack.Initialise(this.damageModifier);
+            float damageModifier = 1 + this.stats.Attack1Strength / 5F;
+            float sizeModifier = 1 + this.stats.Attack1Size / 10F;
+            attack.Initialise(damageModifier, sizeModifier);
         }
 
         if (Input.GetButtonDown("Action2"))
         {
-            MagicProjectile projectile = Instantiate(MagicProjectilePrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward));
-            Direction projectileDirection = (Direction)this.spriteAnimator.GetInteger("Direction");
+            // Find direction based on player's current facing direction
             float projectileSpeed = 15F;
-
+            Direction projectileDirection = (Direction)this.spriteAnimator.GetInteger("Direction");
+            Vector2 baseVelocity = Vector2.zero;
             if (projectileDirection == Direction.Right)
             {
-                projectile.Initialise(Vector2.right * projectileSpeed, this.damageModifier);
+                baseVelocity = Vector2.right * projectileSpeed;
             }
             else if (projectileDirection == Direction.Down)
             {
-                projectile.Initialise(Vector2.down * projectileSpeed, this.damageModifier);
+                baseVelocity = Vector2.down * projectileSpeed;
             }
             else if (projectileDirection == Direction.Left)
             {
-                projectile.Initialise(Vector2.left * projectileSpeed, this.damageModifier);
+                baseVelocity = Vector2.left * projectileSpeed;
             }
             else if (projectileDirection == Direction.Up)
             {
-                projectile.Initialise(Vector2.up * projectileSpeed, this.damageModifier);
+                baseVelocity = Vector2.up * projectileSpeed;
             }
+
+            // Create N projectiles scattered across a range
+            float damageModifier = 1 + this.stats.Attack2Strength / 5F;
+            int numProjectiles = this.stats.Attack2NumberOfProjectiles;
+
+            // Scatter range is wider for more projectiles
+            float scatterAngle = Mathf.Min(90, 9F * numProjectiles);
+
+            for (int i = 0; i < numProjectiles; i++)
+            {
+                MagicProjectile projectile = Instantiate(MagicProjectilePrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward));
+
+                // if (i == 0)
+                // {
+                //     // Always send one directly
+                //     projectile.Initialise(baseVelocity, damageModifier);
+                // }
+                // else
+                // {
+                float angle = Random.Range(-scatterAngle / 2, scatterAngle / 2);
+                projectile.Initialise(Quaternion.AngleAxis(angle, Vector3.forward) * baseVelocity, damageModifier);
+                // }
+            }
+
         }
     }
 

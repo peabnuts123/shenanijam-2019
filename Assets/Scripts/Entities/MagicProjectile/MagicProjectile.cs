@@ -46,7 +46,7 @@ public class MagicProjectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag != "Player" && !other.isTrigger)
+        if (other.tag != "Player" && other.tag != "Projectile" && !other.isTrigger)
         {
             // Play the fizzle animation
             this.projectileSpriteObject.SetActive(false);

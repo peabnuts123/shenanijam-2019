@@ -7,7 +7,6 @@ public class MagicProjectileFizzleHandler : MonoBehaviour
 
     public void DestroySelf()
     {
-        Destroy(this.mainObject);
-        this.gameObject.SetActive(false);
+        Destroy(this.mainObject.gameObject);
     }
 }

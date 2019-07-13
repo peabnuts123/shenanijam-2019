@@ -9,10 +9,14 @@ public class MagicAttack : MonoBehaviour
     
     // Private config
     private float damageModifier;
+    private float sizeModifier;
 
-    public void Initialise(float damageModifier)
+    public void Initialise(float damageModifier, float sizeModifier)
     {
         this.damageModifier = damageModifier;
+        this.sizeModifier = sizeModifier;
+
+        this.transform.localScale *= this.sizeModifier;
     }
     
     public void DestroySelf()
