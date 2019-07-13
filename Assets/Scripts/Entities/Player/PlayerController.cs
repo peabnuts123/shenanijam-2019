@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Zenject;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,16 +18,35 @@ public class PlayerController : MonoBehaviour
     public Animator spriteAnimator;
     [NotNull]
     public Rigidbody2D rigidBody;
+    [NotNull]
+    public MagicProjectile MagicProjectilePrefab;
+    [NotNull]
+    public MagicAttack MagicAttackPrefab;
 
     // Public config
     public float speed = 5F;
+    public float damageModifier = 1F;
+
+    // Private references
+    [Inject]
+    private Damageable damageable;
 
     // Private state
     private bool isAutopilot = false;
     private Vector2 autopilotDirection;
 
-    // Update is called once per frame
+    void Start()
+    {
+        this.damageable.OnDeath += this.OnDeath;
+    }
+
     void Update()
+    {
+        UpdateMovement();
+        UpdateAttacks();
+    }
+
+    private void UpdateMovement()
     {
         if (!this.isAutopilot)
         {
@@ -65,7 +85,39 @@ public class PlayerController : MonoBehaviour
                 this.spriteAnimator.SetInteger("Direction", (int)Direction.Right);
             }
         }
+    }
 
+    private void UpdateAttacks()
+    {
+        if (Input.GetButtonDown("Action1"))
+        {
+            /* MagicAttack attack =  */
+            Instantiate(MagicAttackPrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward));
+        }
+
+        if (Input.GetButtonDown("Action2"))
+        {
+            MagicProjectile projectile = Instantiate(MagicProjectilePrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward));
+            Direction projectileDirection = (Direction)this.spriteAnimator.GetInteger("Direction");
+            float projectileSpeed = 15F;
+
+            if (projectileDirection == Direction.Right)
+            {
+                projectile.Initialise(Vector2.right * projectileSpeed, this.damageModifier);
+            }
+            else if (projectileDirection == Direction.Down)
+            {
+                projectile.Initialise(Vector2.down * projectileSpeed, this.damageModifier);
+            }
+            else if (projectileDirection == Direction.Left)
+            {
+                projectile.Initialise(Vector2.left * projectileSpeed, this.damageModifier);
+            }
+            else if (projectileDirection == Direction.Up)
+            {
+                projectile.Initialise(Vector2.up * projectileSpeed, this.damageModifier);
+            }
+        }
     }
 
     public void BeginAutopilot(Vector2 direction)
@@ -78,5 +130,12 @@ public class PlayerController : MonoBehaviour
     {
         this.isAutopilot = false;
         this.autopilotDirection = Vector2.zero;
+    }
+
+    void OnDeath()
+    {
+        Debug.Log("YOU LOSE!");
+        // @TODO @DEBUG
+        Destroy(this.gameObject);
     }
 }
