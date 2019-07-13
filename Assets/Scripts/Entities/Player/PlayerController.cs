@@ -91,8 +91,8 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Action1"))
         {
-            /* MagicAttack attack =  */
-            Instantiate(MagicAttackPrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward));
+            MagicAttack attack = Instantiate(MagicAttackPrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward));
+            attack.Initialise(this.damageModifier);
         }
 
         if (Input.GetButtonDown("Action2"))

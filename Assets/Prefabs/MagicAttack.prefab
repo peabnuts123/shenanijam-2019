@@ -19,9 +19,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4013760145218686}
+  - component: {fileID: 114918306422968916}
   - component: {fileID: 95803588996600096}
   - component: {fileID: 212167436462620402}
-  - component: {fileID: 114918306422968916}
+  - component: {fileID: 58827313538402450}
   m_Layer: 0
   m_Name: MagicAttack
   m_TagString: Untagged
@@ -42,6 +43,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &58827313538402450
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1008165347579120}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 2
 --- !u!95 &95803588996600096
 Animator:
   serializedVersion: 3
@@ -71,6 +87,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee9b6d751922c4f1188dbd75f881464b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 5
+  damageModifier: 0
 --- !u!212 &212167436462620402
 SpriteRenderer:
   m_ObjectHideFlags: 1

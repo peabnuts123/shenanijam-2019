@@ -202,6 +202,7 @@ MonoBehaviour:
   rigidBody: {fileID: 50188619989661302}
   projectileSpriteObject: {fileID: 1152064604202714}
   fizzleSpriteObject: {fileID: 1646183184957766}
+  damage: 2
 --- !u!212 &212093274963007908
 SpriteRenderer:
   m_ObjectHideFlags: 1
