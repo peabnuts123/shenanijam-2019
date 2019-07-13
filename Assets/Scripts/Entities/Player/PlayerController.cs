@@ -25,7 +25,9 @@ public class PlayerController : MonoBehaviour
     public MagicAttack MagicAttackPrefab;
 
     // Public config
-    public float speed = 5F;
+    public float speed = 3F;
+    public float attack1RateOfFire = 2.3F;
+    public float attack2RateOfFire = 10F;
 
     // Private references
     [Inject]
@@ -36,6 +38,8 @@ public class PlayerController : MonoBehaviour
     // Private state
     private bool isAutopilot = false;
     private Vector2 autopilotDirection;
+    private float attack1Timer = 0;
+    private float attack2Timer = 0;
 
     void Start()
     {
@@ -93,60 +97,74 @@ public class PlayerController : MonoBehaviour
     private void UpdateAttacks()
     {
 
-        if (Input.GetButtonDown("Action1"))
+        if (this.attack1Timer <= 0)
         {
-            MagicAttack attack = Instantiate(MagicAttackPrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward));
-            float damageModifier = 1 + this.stats.Attack1Strength / 5F;
-            float sizeModifier = 1 + this.stats.Attack1Size / 10F;
-            attack.Initialise(damageModifier, sizeModifier);
+            if (Input.GetButtonDown("Action1"))
+            {
+                MagicAttack attack = Instantiate(MagicAttackPrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward));
+                float damageModifier = 1 + this.stats.Attack1Strength / 5F;
+                float sizeModifier = 1 + this.stats.Attack1Size / 10F;
+                attack.Initialise(damageModifier, sizeModifier);
+
+                // Reset attack timer
+                this.attack1Timer = 1.0F / this.attack1RateOfFire;
+                Debug.Log($"Set attack1 timer to {this.attack1Timer}");
+            }
+        }
+        else
+        {
+            // Count down attack timer
+            this.attack1Timer -= Time.deltaTime;
         }
 
-        if (Input.GetButtonDown("Action2"))
+        if (this.attack2Timer <= 0)
         {
-            // Find direction based on player's current facing direction
-            float projectileSpeed = 15F;
-            Direction projectileDirection = (Direction)this.spriteAnimator.GetInteger("Direction");
-            Vector2 baseVelocity = Vector2.zero;
-            if (projectileDirection == Direction.Right)
+            if (Input.GetButtonDown("Action2"))
             {
-                baseVelocity = Vector2.right * projectileSpeed;
-            }
-            else if (projectileDirection == Direction.Down)
-            {
-                baseVelocity = Vector2.down * projectileSpeed;
-            }
-            else if (projectileDirection == Direction.Left)
-            {
-                baseVelocity = Vector2.left * projectileSpeed;
-            }
-            else if (projectileDirection == Direction.Up)
-            {
-                baseVelocity = Vector2.up * projectileSpeed;
-            }
+                // Find direction based on player's current facing direction
+                float projectileSpeed = 15F;
+                Direction projectileDirection = (Direction)this.spriteAnimator.GetInteger("Direction");
+                Vector2 baseVelocity = Vector2.zero;
+                if (projectileDirection == Direction.Right)
+                {
+                    baseVelocity = Vector2.right * projectileSpeed;
+                }
+                else if (projectileDirection == Direction.Down)
+                {
+                    baseVelocity = Vector2.down * projectileSpeed;
+                }
+                else if (projectileDirection == Direction.Left)
+                {
+                    baseVelocity = Vector2.left * projectileSpeed;
+                }
+                else if (projectileDirection == Direction.Up)
+                {
+                    baseVelocity = Vector2.up * projectileSpeed;
+                }
 
-            // Create N projectiles scattered across a range
-            float damageModifier = 1 + this.stats.Attack2Strength / 5F;
-            int numProjectiles = this.stats.Attack2NumberOfProjectiles;
+                // Create N projectiles scattered across a range
+                float damageModifier = 1 + this.stats.Attack2Strength / 5F;
+                int numProjectiles = this.stats.Attack2NumberOfProjectiles;
 
-            // Scatter range is wider for more projectiles
-            float scatterAngle = Mathf.Min(90, 9F * numProjectiles);
+                // Scatter range is wider for more projectiles
+                float scatterAngle = Mathf.Min(90, 9F * numProjectiles);
 
-            for (int i = 0; i < numProjectiles; i++)
-            {
-                MagicProjectile projectile = Instantiate(MagicProjectilePrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward));
+                for (int i = 0; i < numProjectiles; i++)
+                {
+                    MagicProjectile projectile = Instantiate(MagicProjectilePrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward));
 
-                // if (i == 0)
-                // {
-                //     // Always send one directly
-                //     projectile.Initialise(baseVelocity, damageModifier);
-                // }
-                // else
-                // {
-                float angle = Random.Range(-scatterAngle / 2, scatterAngle / 2);
-                projectile.Initialise(Quaternion.AngleAxis(angle, Vector3.forward) * baseVelocity, damageModifier);
-                // }
+                    float angle = Random.Range(-scatterAngle / 2, scatterAngle / 2);
+                    projectile.Initialise(Quaternion.AngleAxis(angle, Vector3.forward) * baseVelocity, damageModifier);
+                }
+
+                // Reset attack timer
+                this.attack2Timer = 1.0F / this.attack2RateOfFire;
             }
-
+        }
+        else
+        {
+            // Count down attack timer 
+            this.attack2Timer -= Time.deltaTime;
         }
     }
 

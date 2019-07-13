@@ -429,7 +429,9 @@ MonoBehaviour:
     type: 2}
   MagicAttackPrefab: {fileID: 114918306422968916, guid: 3bc2c3f27e5f54431a2f8d2d16efdf4e,
     type: 2}
-  speed: 10
+  speed: 3
+  attack1RateOfFire: 2.3
+  attack2RateOfFire: 14
 --- !u!50 &1076856888
 Rigidbody2D:
   serializedVersion: 4
