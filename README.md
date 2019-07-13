@@ -3,6 +3,38 @@
 
 ## TODO: Update README
 
+## Backlog
+  - Player attack1 does damage n' stuff
+  - ~~~Reward and Monster rooms actually spawn~~~
+  - (?) Monsters are only awake in the current room
+    - Maybe intentionally leave this out for spice factor
+  - Player actually has stats
+  - Player can combine with DNA
+  - Player can collect with DNA
+  - Monsters have stats too
+  - 🎉 Gameplay loop closes
+  - HUD for player's stats + DNA collected
+  - HUD for picking up Reward
+  - Death screen
+  - Sound 🔈
+  - 🎉 Game is Playable
+  - Intro splash screen
+  - Main menu
+  - Pause menu
+  - 🎉 Game's done!
+
+## Polish Things
+  - Enemies visually reflect their strength
+    - Size, Color, Animation nuances
+  - Metagame for spending points after dying
+  - Camera zooms in for DNA collection
+  - Better enemy sprites lol
+  - Monsters flip horizontally
+
+## Stretch Goals
+  - Save / Load your points from disk
+  - Save / Load into into the cloud
+
 This is a project template for getting up-and-running quickly for game jams. It is configured for creating 2D games in Unity. Included are a bunch of common plugins, code and prefabs that I use when developing games. This is to save on overhead that would otherwise occur during the jam, setting up a new project and copying over any specific library code from other games.
 
 The code included is all focused on automation and making code easier to write, it does not "pre-code" any features or mechanics.

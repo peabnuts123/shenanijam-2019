@@ -20,7 +20,7 @@ public class MonsterController : MonoBehaviour
     // Public references
     [NotNull]
     public Rigidbody2D rigidBody;
-    [NotNull]
+    [NotNull(IgnorePrefab = true)]
     public Transform target;
     [NotNull]
     public Animator spriteAnimator;
@@ -30,7 +30,7 @@ public class MonsterController : MonoBehaviour
     private Damageable damageable;
     private Damageable targetDamageable;
 
-    // Private state
+    // Private State
     private float actionTimer = 0;
     private float attackTimer = 0;
     private bool isAwake = true;
@@ -93,7 +93,6 @@ public class MonsterController : MonoBehaviour
                         if ((Random.Range(0F, 1F) < Mathf.Sqrt(this.aggressiveness)) && targetIsInAttackRange)
                         {
                             // Attack target
-                            Debug.Log("YEARGHHH!!!");
                             this.spriteAnimator.SetTrigger("Attack");
                             this.targetDamageable.Damage(this.damage * this.damageModifier);
                         }

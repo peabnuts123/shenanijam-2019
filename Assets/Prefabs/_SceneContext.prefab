@@ -144,7 +144,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   camera: {fileID: 0}
-  DungeonRoomPrefab: {fileID: 1989933333855442, guid: 3f0f31854047044adbf96c4a525422fd,
+  RewardRoomPrefab: {fileID: 114466807732944602, guid: 4f11128c7339248ecb71d96ede2fcdbf,
+    type: 2}
+  MonsterRoomPrefab: {fileID: 114010049601160552, guid: 512b5d4049e874b9bae2129b6da88a04,
     type: 2}
   DIMENSION_WIDTH_UNITS: 32
   DIMENSION_HEIGHT_UNITS: 24

@@ -2,12 +2,11 @@ using System;
 using UnityEngine;
 using Zenject;
 
-public class DungeonRoom : MonoBehaviour
+public abstract class DungeonRoom : MonoBehaviour
 {
-    // Public references
-    public bool areTriggersEnabled;
-
     // Public config
+    [NonSerialized]
+    public bool areTriggersEnabled;
     [NonSerialized]
     public Vector2Int roomCoordinate;
     [NonSerialized]

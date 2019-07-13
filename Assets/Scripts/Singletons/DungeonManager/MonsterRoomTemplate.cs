@@ -2,5 +2,8 @@ using UnityEngine;
 
 public class MonsterRoomTemplate : IDungeonRoomTemplate
 {
-    public Vector2[] spawnPositions;
+    public SpawnInfo[] spawnInfo;
+}
+public struct SpawnInfo {
+    public Vector2 position;
 }

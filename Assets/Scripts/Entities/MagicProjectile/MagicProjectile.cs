@@ -62,7 +62,6 @@ public class MagicProjectile : MonoBehaviour
             var damageable = other.GetComponent<Damageable>();
             if (damageable != null)
             {
-                Debug.Log("Damaging the thing!!");
                 damageable.Damage(this.damage * this.damageModifier);
             }
         }

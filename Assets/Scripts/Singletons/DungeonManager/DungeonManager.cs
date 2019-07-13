@@ -25,7 +25,10 @@ public class DungeonManager : MonoBehaviour
 
     // Public config
     [NotNull]
-    public GameObject DungeonRoomPrefab;
+    public RewardRoom RewardRoomPrefab;
+    [NotNull]
+    public MonsterRoom MonsterRoomPrefab;
+
     public int DIMENSION_WIDTH_UNITS = 32;
     public int DIMENSION_HEIGHT_UNITS = 24;
     public float SPAWN_AREA_WIDTH_UNITS = 18;
@@ -149,7 +152,7 @@ public class DungeonManager : MonoBehaviour
         // Enable the ones in the current room
         DungeonRoom room = GetRoomWithCoordinate(this.currentCoordinate);
         room.areTriggersEnabled = true;
-
+        
         player.EndAutopilot();
     }
 
@@ -157,15 +160,38 @@ public class DungeonManager : MonoBehaviour
     {
         IDungeonRoomTemplate roomTemplate = GetOrGenerateRoomTemplateForCoordinate(roomCoordinate);
         var position = ConvertRoomCoordinateToWorldCoordinate(roomCoordinate);
-        GameObject roomObject = Container.InstantiatePrefab(this.DungeonRoomPrefab);
-        roomObject.transform.position = position;
 
-        DungeonRoom room = roomObject.GetComponent<DungeonRoom>();
+        GameObject loadedRoom;
+        DungeonRoom dungeonRoom;
+        if (roomTemplate is RewardRoomTemplate)
+        {
+            var template = roomTemplate as RewardRoomTemplate;
 
-        room.dungeonRoomTemplate = roomTemplate;
-        room.roomCoordinate = roomCoordinate;
+            loadedRoom = Container.InstantiatePrefab(RewardRoomPrefab);
+            RewardRoom room = loadedRoom.GetComponent<RewardRoom>();
+            dungeonRoom = room;
+        }
+        else if (roomTemplate is MonsterRoomTemplate)
+        {
+            var template = roomTemplate as MonsterRoomTemplate;
 
-        this.loadedRooms.Add(room);
+            loadedRoom = Container.InstantiatePrefab(MonsterRoomPrefab);
+            MonsterRoom room = loadedRoom.GetComponent<MonsterRoom>();
+            dungeonRoom = room;
+
+            room.player = this.player;
+        }
+        else
+        {
+            throw new System.NotImplementedException($"Unimplemented room template of type {roomTemplate.GetType()}");
+        }
+
+        dungeonRoom.transform.transform.position = position;
+
+        dungeonRoom.dungeonRoomTemplate = roomTemplate;
+        dungeonRoom.roomCoordinate = roomCoordinate;
+
+        this.loadedRooms.Add(dungeonRoom);
     }
 
     void UnloadRoomAtCoordinate(Vector2Int roomCoordinate)
@@ -215,8 +241,10 @@ public class DungeonManager : MonoBehaviour
         // Set up RNG seeded by arbitrary number + also room coordinate
         //  so that every room is always generated the same but is unique
         //  for every coordinate
-        float cantorCoordinate = (0.5F * (x + y) * (x + y + 1)) + y;
-        var random = new System.Random(Mathf.RoundToInt(DUNGEON_SEED + cantorCoordinate));
+        float cantorCoordinate = (0.5F * ((5*x) + (5*y)) * ((5*x) + (5*y) + 1)) + (5*y);
+        int seed = Mathf.RoundToInt(DUNGEON_SEED + cantorCoordinate);
+        var random = new System.Random(seed);
+        Debug.Log($"Random seed for coordinate ({x}, {y}): {seed} (Cantor: {cantorCoordinate})");
 
         if (random.NextDouble() < rewardRoomFrequency)
         {
@@ -235,18 +263,24 @@ public class DungeonManager : MonoBehaviour
             Debug.Log($"Generating monster room at ({x}, {y}) with {numMonsters} monsters");
 
             // Generate monsters
-            Vector2[] spawnPositions = new Vector2[numMonsters];
-            for (int i = 0; i < spawnPositions.Length; i++)
+            SpawnInfo[] spawnInfo = new SpawnInfo[numMonsters];
+            for (int i = 0; i < spawnInfo.Length; i++)
             {
                 // Spawn within SPAWN_AREA bounds, around the center
                 float spawnX = (float)(random.NextDouble() * SPAWN_AREA_WIDTH_UNITS - (SPAWN_AREA_WIDTH_UNITS / 2F));
                 float spawnY = (float)(random.NextDouble() * SPAWN_AREA_HEIGHT_UNITS - (SPAWN_AREA_HEIGHT_UNITS / 2F));
-                spawnPositions[i] = new Vector2(spawnX, spawnY);
+
+                Debug.Log($"Spawning monster at position ({spawnX}, {spawnY})");
+
+                spawnInfo[i] = new SpawnInfo
+                {
+                    position = new Vector2(spawnX, spawnY),
+                };
             }
 
             var roomTemplate = new MonsterRoomTemplate
             {
-                spawnPositions = spawnPositions
+                spawnInfo = spawnInfo
             };
 
             return roomTemplate;
