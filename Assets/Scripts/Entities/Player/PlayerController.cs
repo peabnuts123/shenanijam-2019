@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
+
 public class PlayerController : MonoBehaviour
 {
 
@@ -30,6 +31,8 @@ public class PlayerController : MonoBehaviour
     // Private references
     [Inject]
     private Damageable damageable;
+    [Inject]
+    private PlayerStats stats;
 
     // Private state
     private bool isAutopilot = false;
@@ -48,14 +51,15 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateMovement()
     {
+        float playerSpeed = this.speed + this.stats.Speed;
         if (!this.isAutopilot)
         {
-            this.rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * this.speed, Input.GetAxis("Vertical") * this.speed);
+            this.rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * playerSpeed, Input.GetAxis("Vertical") * playerSpeed);
         }
         else
         {
             // Player is on autopilot
-            this.rigidBody.velocity = this.autopilotDirection * this.speed;
+            this.rigidBody.velocity = this.autopilotDirection * playerSpeed;
         }
 
         var deltaX = this.rigidBody.velocity.x;

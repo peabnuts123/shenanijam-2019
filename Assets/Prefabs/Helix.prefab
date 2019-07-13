@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4725117878848634}
   - component: {fileID: 114391527571498514}
   - component: {fileID: 61469416844301316}
+  - component: {fileID: 114745688297265902}
   m_Layer: 0
   m_Name: Helix
   m_TagString: Untagged
@@ -126,6 +127,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87527d46163654dae98f68d0adfa5de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114745688297265902
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1924847716820060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458303f58ae2c437fb80490fe51427c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 212842348560273222}
+  transformMarker: {fileID: 4725117878848634}
 --- !u!212 &212842348560273222
 SpriteRenderer:
   m_ObjectHideFlags: 1

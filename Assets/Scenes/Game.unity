@@ -389,6 +389,8 @@ GameObject:
   - component: {fileID: 1076856888}
   - component: {fileID: 1076856890}
   - component: {fileID: 1076856889}
+  - component: {fileID: 1076856891}
+  - component: {fileID: 1076856892}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -476,6 +478,36 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.38}
   serializedVersion: 2
   m_Radius: 0.94
+--- !u!114 &1076856891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1076856885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5219da7bfe692492fa0cbc630c90fb4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attack1Strength: 1
+  _attack1Size: 1
+  _attack2Strength: 1
+  _attack2NumberOfProjectiles: 1
+  _speed: 1
+  _hitpoints: 20
+--- !u!114 &1076856892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1076856885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458303f58ae2c437fb80490fe51427c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 896363516}
+  transformMarker: {fileID: 1076856886}
 --- !u!1001 &1896199344
 Prefab:
   m_ObjectHideFlags: 0

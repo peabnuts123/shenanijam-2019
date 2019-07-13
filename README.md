@@ -4,11 +4,9 @@
 ## TODO: Update README
 
 ## Backlog
-  - Player attack1 does damage n' stuff
+  - ~~~Player attack1 does damage n' stuff~~~
   - ~~~Reward and Monster rooms actually spawn~~~
-  - (?) Monsters are only awake in the current room
-    - Maybe intentionally leave this out for spice factor
-  - Player actually has stats
+  - ~~~Player actually has stats~~~
   - Player can combine with DNA
   - Player can collect with DNA
   - Monsters have stats too
