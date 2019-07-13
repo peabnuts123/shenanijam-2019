@@ -4,7 +4,6 @@ public class PlayerController : MonoBehaviour
 {
 
     // Constants
-    public readonly static float INPUT_DEAD_ZONE = 0.1F;
     public enum Direction
     {
         Right = 0,
@@ -22,36 +21,62 @@ public class PlayerController : MonoBehaviour
     // Public config
     public float speed = 5F;
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
+    // Private state
+    private bool isAutopilot = false;
+    private Vector2 autopilotDirection;
 
     // Update is called once per frame
     void Update()
     {
-        var hAxis = Input.GetAxis("Horizontal");
-        var vAxis = Input.GetAxis("Vertical");
-
-
-        if (vAxis < -INPUT_DEAD_ZONE)
+        if (!this.isAutopilot)
         {
-            this.spriteAnimator.SetInteger("Direction", (int)Direction.Down);
-        } else if (vAxis > INPUT_DEAD_ZONE)
+            this.rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * this.speed, Input.GetAxis("Vertical") * this.speed);
+        }
+        else
         {
-            this.spriteAnimator.SetInteger("Direction", (int)Direction.Up);
+            // Player is on autopilot
+            this.rigidBody.velocity = this.autopilotDirection * this.speed;
         }
 
-        if (hAxis < -INPUT_DEAD_ZONE)
+        var deltaX = this.rigidBody.velocity.x;
+        var deltaY = this.rigidBody.velocity.y;
+
+        if (Mathf.Abs(deltaY) > Mathf.Abs(deltaX))
         {
-            this.spriteAnimator.SetInteger("Direction", (int)Direction.Left);
-        } else if (hAxis > INPUT_DEAD_ZONE)
+            // Moving more vertically than horizontally
+            if (deltaY < 0)
+            {
+                this.spriteAnimator.SetInteger("Direction", (int)Direction.Down);
+            }
+            else if (deltaY > 0)
+            {
+                this.spriteAnimator.SetInteger("Direction", (int)Direction.Up);
+            }
+        }
+        else
         {
-            this.spriteAnimator.SetInteger("Direction", (int)Direction.Right);
+            // Moving more horizontally than vertically
+            if (deltaX < 0)
+            {
+                this.spriteAnimator.SetInteger("Direction", (int)Direction.Left);
+            }
+            else if (deltaX > 0)
+            {
+                this.spriteAnimator.SetInteger("Direction", (int)Direction.Right);
+            }
         }
 
-        this.rigidBody.velocity = new Vector2(hAxis * this.speed, vAxis * this.speed);
+    }
 
+    public void BeginAutopilot(Vector2 direction)
+    {
+        this.isAutopilot = true;
+        this.autopilotDirection = direction.normalized;
+    }
+
+    public void EndAutopilot()
+    {
+        this.isAutopilot = false;
+        this.autopilotDirection = Vector2.zero;
     }
 }
