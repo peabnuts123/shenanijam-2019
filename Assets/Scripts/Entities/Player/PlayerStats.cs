@@ -47,7 +47,7 @@ public class PlayerStats : MonoBehaviour
 
     public void FullHeal()
     {
-        this.damageable.healthPoints = this.Hitpoints;
+        this.Hitpoints = this.Hitpoints;
     }
 
 

@@ -279,7 +279,6 @@ public class DungeonManager : MonoBehaviour
 
             // @TODO better difficulty curve
             int numMonsters = difficulty;
-            Debug.Log($"Generating monster room at ({x}, {y}) with {numMonsters} monsters");
 
             // Generate monsters
             SpawnInfo[] spawnInfo = new SpawnInfo[numMonsters];
@@ -288,8 +287,6 @@ public class DungeonManager : MonoBehaviour
                 // Spawn within SPAWN_AREA bounds, around the center
                 float spawnX = (float)(random.NextDouble() * SPAWN_AREA_WIDTH_UNITS - (SPAWN_AREA_WIDTH_UNITS / 2F));
                 float spawnY = (float)(random.NextDouble() * SPAWN_AREA_HEIGHT_UNITS - (SPAWN_AREA_HEIGHT_UNITS / 2F));
-
-                Debug.Log($"Spawning monster at position ({spawnX}, {spawnY})");
 
                 spawnInfo[i] = new SpawnInfo
                 {

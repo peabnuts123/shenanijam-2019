@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour
         this.damageable.OnDamage += this.OnDamage;
 
         this.collectedHelixes = new List<Helix>();
+
+        this.stats.FullHeal();
         RefreshStatsBar();
         this.statusBarController.HelixCount = this.collectedHelixes.Count;
     }
@@ -132,7 +134,6 @@ public class PlayerController : MonoBehaviour
 
                 // Reset attack timer
                 this.attack1Timer = 1.0F / this.attack1RateOfFire;
-                Debug.Log($"Set attack1 timer to {this.attack1Timer}");
             }
         }
         else
@@ -202,29 +203,14 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetButtonDown("Action2"))
         {
-            Debug.Log("Stats Before:");
-            // @TODO
-            DumpStats();
             this.stats.ApplyHelix(this.currentInteractingHelix);
             this.currentInteractingHelix.Consume();
-            Debug.Log("Stats After:");
-            DumpStats();
 
             // Heal
             this.stats.FullHeal();
 
             RefreshStatsBar();
         }
-    }
-
-    void DumpStats()
-    {
-        Debug.Log("Attack1Strength: " + this.stats.Attack1Strength);
-        Debug.Log("Attack1Size: " + this.stats.Attack1Size);
-        Debug.Log("Attack2Strength: " + this.stats.Attack2Strength);
-        Debug.Log("Attack2NumberOfProjectiles: " + this.stats.Attack2NumberOfProjectiles);
-        Debug.Log("Speed: " + this.stats.Speed);
-        Debug.Log("Hitpoints: " + this.stats.Hitpoints);
     }
 
     void RefreshStatsBar()
