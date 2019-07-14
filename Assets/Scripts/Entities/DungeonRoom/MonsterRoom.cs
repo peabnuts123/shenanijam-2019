@@ -29,6 +29,14 @@ public class MonsterRoom : DungeonRoom
             MonsterController monster = Container.InstantiatePrefab(MonsterPrefab, spawnPosition, Quaternion.identity, this.transform).GetComponent<MonsterController>();
             monster.target = this.player.transform;
 
+            MonsterStats stats = monster.GetComponent<MonsterStats>();
+            stats.Damage = stats.GetUpdatedStat(stats.Damage, spawnInfo.damageMultiplier);
+            stats.Speed = stats.GetUpdatedStat(stats.Speed, spawnInfo.speedMultiplier);
+            stats.Hitpoints = stats.GetUpdatedStat(stats.Hitpoints, spawnInfo.hitpointsMultiplier);
+            stats.difficulty = spawnInfo.difficulty;
+
+            monster.UpdateDifficultyColor();
+
             this.monsters.Add(monster);
         }
     }

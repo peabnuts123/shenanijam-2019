@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 70165114333947594}
   - component: {fileID: 114492649370929346}
   - component: {fileID: 114240162445404240}
+  - component: {fileID: 114378842502197204}
   m_Layer: 0
   m_Name: Glorb
   m_TagString: Untagged
@@ -141,6 +142,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 212130293902422454}
   transformMarker: {fileID: 4558990431147700}
+--- !u!114 &114378842502197204
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1256495956266960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b244ea9552a843d7b4e466d56ecf915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 2
+  _speed: 3
+  _hitpoints: 10
+  difficulty: 0
 --- !u!114 &114492649370929346
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -164,8 +180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b7b703f91da4d12a696cd8f34ba699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  damage: 2
   damageModifier: 1
   aggroRange: 8
   attackRange: 4
@@ -173,9 +187,11 @@ MonoBehaviour:
   responsiveness: 10
   monsterHitAudio: {fileID: 8300000, guid: 0328aae935eae40e7a4e3db1a158e34f, type: 3}
   monsterDieAudio: {fileID: 8300000, guid: ede43eb99969a4651b4f4c82569ae543, type: 3}
+  peakThreatColor: {r: 1, g: 0.16936208, b: 0.09099996, a: 1}
   rigidBody: {fileID: 50260845376447444}
   target: {fileID: 0}
   spriteAnimator: {fileID: 95975157874298460}
+  spriteRenderer: {fileID: 212130293902422454}
 --- !u!212 &212130293902422454
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -212,7 +228,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 100
   m_Sprite: {fileID: 21300000, guid: 4cb4441317a32494eb611bee93de180f, type: 3}
-  m_Color: {r: 0.9529412, g: 0.40392157, b: 0.3479886, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -15,14 +15,13 @@
   - ~~~Death screen~~~
   - ~~~Sound 🔈~~~
   - 🎉 Game is Playable
-  - Monsters difficulty curve
-  - Enemies visually reflect their strength
-    - Size, Color, Animation nuances
+  - ~~~Monsters difficulty curve~~~
+  - ~~~Enemies visually reflect their strength~~~
   - ~~~Pause menu~~~
   - 🎉 Game's done!
 
 ## Checklist
-  - Controller support
+  - ~~~Controller support~~~
   - Windows build
   - Web build
   - Make Itch.io page
@@ -42,7 +41,6 @@
 ## Polish Things
   - Intro info screen
   - Main menu
-
   - Metagame for spending points after dying
   - Camera zooms in for DNA collection
   - Better enemy sprites lol

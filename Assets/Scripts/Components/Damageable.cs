@@ -19,14 +19,17 @@ public class Damageable : MonoBehaviour
     {
         this.healthPoints -= damage;
 
-        if (this.OnDamage != null)
+
+        if (this.healthPoints <= 0)
+        {
+            if (this.OnDeath != null)
+            {
+                this.OnDeath();
+            }
+        }
+        else if (this.OnDamage != null)
         {
             this.OnDamage();
-        }
-
-        if (this.healthPoints <= 0 && this.OnDeath != null)
-        {
-            this.OnDeath();
         }
     }
 }

@@ -26,6 +26,7 @@ public class MasterInstaller : MonoInstaller
         Container.Bind<Rigidbody2D>().FromComponentSibling();
         Container.Bind<Damageable>().FromComponentSibling();
         Container.Bind<PlayerStats>().FromComponentSibling();
+        Container.Bind<MonsterStats>().FromComponentSibling();
     }
 
 }

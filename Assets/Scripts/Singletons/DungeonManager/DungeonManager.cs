@@ -275,22 +275,45 @@ public class DungeonManager : MonoBehaviour
         {
             // Monster room >:E 
             // Difficulty is distance from center in number of rooms, and always at least 1
-            int difficulty = GetDifficultyScoreForRoomCoordinate(roomCoordinate);
+            float baseDifficulty = GetDifficultyScoreForRoomCoordinate(roomCoordinate);
 
-            // @TODO better difficulty curve
-            int numMonsters = difficulty;
+            int maxNumMonsters = Mathf.FloorToInt(Mathf.Log(baseDifficulty + 1.5F) / Mathf.Log(1.5F));
+            int minNumMonsters = Mathf.Max(1, Mathf.FloorToInt(maxNumMonsters / 2F));
+
+            int numMonsters = Random.Range(minNumMonsters, maxNumMonsters);
 
             // Generate monsters
             SpawnInfo[] spawnInfo = new SpawnInfo[numMonsters];
             for (int i = 0; i < spawnInfo.Length; i++)
             {
+                // Under/overlevel this monster
+                float difficulty = Mathf.RoundToInt(baseDifficulty * Random.Range(0.8F, 1.2F));
+
+                // Roll stats
+                float maxDamageMultiplier = difficulty / 2.5F;
+                float minDamageMultiplier = Mathf.Max(1, maxDamageMultiplier / 2.5F);
+                float damageMultiplier = Random.Range(minDamageMultiplier, maxDamageMultiplier);
+
+                float maxSpeedMultiplier = Mathf.Log(difficulty + 3F) / Mathf.Log(3F);
+                float minSpeedMultiplier = Mathf.Max(1, maxSpeedMultiplier * 0.8F);
+                float speedMultiplier = Random.Range(minSpeedMultiplier, maxSpeedMultiplier);
+
+                float maxHitpointsMultiplier = Mathf.Pow(difficulty, 1.3F) / 10F + 1;
+                float minHitpointsMultiplier = Mathf.Max(1, maxHitpointsMultiplier * 0.5F);
+                float hitpointsMultiplier = Random.Range(minHitpointsMultiplier, maxHitpointsMultiplier);
+
                 // Spawn within SPAWN_AREA bounds, around the center
                 float spawnX = (float)(random.NextDouble() * SPAWN_AREA_WIDTH_UNITS - (SPAWN_AREA_WIDTH_UNITS / 2F));
                 float spawnY = (float)(random.NextDouble() * SPAWN_AREA_HEIGHT_UNITS - (SPAWN_AREA_HEIGHT_UNITS / 2F));
 
+
                 spawnInfo[i] = new SpawnInfo
                 {
                     position = new Vector2(spawnX, spawnY),
+                    damageMultiplier = damageMultiplier,
+                    speedMultiplier = speedMultiplier,
+                    hitpointsMultiplier = hitpointsMultiplier,
+                    difficulty = difficulty,
                 };
             }
 
@@ -316,14 +339,14 @@ public class DungeonManager : MonoBehaviour
         return new System.Random(seed);
     }
 
-    public int GetDifficultyScoreForRoomCoordinate(Vector2Int roomCoordinate)
+    public float GetDifficultyScoreForRoomCoordinate(Vector2Int roomCoordinate)
     {
         var x = roomCoordinate.x;
         var y = roomCoordinate.y;
 
         // Difficulty it just distance from center 
         //   Is that cool?
-        return Mathf.Max(1, Mathf.RoundToInt(Mathf.Sqrt(x * x + y * y)));
+        return Mathf.Sqrt(x * x + y * y);
     }
 
     private Vector3 ConvertRoomCoordinateToWorldCoordinate(Vector2Int roomCoordinate)

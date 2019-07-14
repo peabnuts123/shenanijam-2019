@@ -9,8 +9,8 @@ public class MonsterController : MonoBehaviour
     // 4. Execute well established plan
 
     // Public config
-    public float speed = 3F;
-    public float damage = 2;
+    // public float speed = 3F;
+    // public float damage = 2;
     public float damageModifier = 1;
     public float aggroRange = 8;
     public float attackRange = 4;
@@ -20,6 +20,7 @@ public class MonsterController : MonoBehaviour
     public AudioClip monsterHitAudio;
     [NotNull]
     public AudioClip monsterDieAudio;
+    public Color peakThreatColor;
 
 
     // Public references
@@ -29,6 +30,8 @@ public class MonsterController : MonoBehaviour
     public Transform target;
     [NotNull]
     public Animator spriteAnimator;
+    [NotNull]
+    public SpriteRenderer spriteRenderer;
 
     // Private references
     [Inject]
@@ -36,6 +39,8 @@ public class MonsterController : MonoBehaviour
     private Damageable targetDamageable;
     [Inject]
     private AudioPlayer audioPlayer;
+    [Inject]
+    private MonsterStats stats;
 
     // Private State
     private float actionTimer = 0;
@@ -53,6 +58,32 @@ public class MonsterController : MonoBehaviour
         {
             this.targetDamageable.OnDeath += this.OnTargetDeath;
         }
+
+
+    }
+
+    public void UpdateDifficultyColor()
+    {
+        // Lerp difficulty up to full saturation at, say, level 10
+        //  From there. Lerp slowly to black 
+        if (this.stats.difficulty < 10)
+        {
+            this.spriteRenderer.color = Color.Lerp(this.spriteRenderer.color, this.peakThreatColor, this.stats.difficulty / 10F);
+        }
+        else
+        {
+            this.spriteRenderer.color = Color.Lerp(this.peakThreatColor, Color.black, (this.stats.difficulty - 10) / 40F);
+        }
+        // Color baseColor = this.spriteRenderer.color;
+        // float h_base, s_base, v_base;
+        // Color.RGBToHSV(baseColor, out h_base, out s_base, out v_base);
+
+        // // float h_peak = h_base;
+        // // float s_peak = 1;
+        // // float v_peak = 1;
+        // // Color peakColor = Color.HSVToRGB(h_peak, s_peak, v_peak);
+
+        // this.spriteRenderer.color = peakColor;
     }
 
     void Update()
@@ -88,7 +119,7 @@ public class MonsterController : MonoBehaviour
             if (this.persuingTarget)
             {
                 // Move towards the target
-                this.rigidBody.velocity = targetDelta.normalized * this.speed;
+                this.rigidBody.velocity = targetDelta.normalized * this.stats.Speed;
 
                 // Only bother with this attack stuff if the target can be attacked
                 if (this.targetDamageable != null)
@@ -102,7 +133,7 @@ public class MonsterController : MonoBehaviour
                         {
                             // Attack target
                             this.spriteAnimator.SetTrigger("Attack");
-                            this.targetDamageable.Damage(this.damage * this.damageModifier);
+                            this.targetDamageable.Damage(this.stats.Damage * this.damageModifier);
                         }
 
                         // Reset action timer
