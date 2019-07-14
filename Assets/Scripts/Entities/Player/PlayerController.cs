@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Zenject;
 
 
@@ -25,7 +26,6 @@ public class PlayerController : MonoBehaviour
     public MagicAttack MagicAttackPrefab;
 
     // Public config
-    public float speed = 3F;
     public float attack1RateOfFire = 2.3F;
     public float attack2RateOfFire = 10F;
 
@@ -38,24 +38,38 @@ public class PlayerController : MonoBehaviour
     // Private state
     private bool isAutopilot = false;
     private Vector2 autopilotDirection;
+    private Helix currentInteractingHelix;
     private float attack1Timer = 0;
     private float attack2Timer = 0;
+    private List<Helix> collectedHelixes;
+
 
     void Start()
     {
         this.damageable.OnDeath += this.OnDeath;
         this.damageable.OnDamage += this.OnDamage;
+
+        this.collectedHelixes = new List<Helix>();
     }
 
     void Update()
     {
         UpdateMovement();
-        UpdateAttacks();
+
+        if (this.IsInteractingWithHelix)
+        {
+            UpdateHelixInteraction();
+        }
+        else
+        {
+            UpdateAttacks();
+        }
     }
 
     private void UpdateMovement()
     {
-        float playerSpeed = this.speed + this.stats.Speed;
+        float playerSpeed = this.stats.Speed;
+
         if (!this.isAutopilot)
         {
             this.rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * playerSpeed, Input.GetAxis("Vertical") * playerSpeed);
@@ -97,14 +111,13 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateAttacks()
     {
-
         if (this.attack1Timer <= 0)
         {
             if (Input.GetButtonDown("Action1"))
             {
                 MagicAttack attack = Instantiate(MagicAttackPrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward));
-                float damageModifier = 1 + this.stats.Attack1Strength / 5F;
-                float sizeModifier = 1 + this.stats.Attack1Size / 10F;
+                float damageModifier = Mathf.Max(0.5F, this.stats.Attack1Strength / 5F);
+                float sizeModifier = Mathf.Max(0.5F, this.stats.Attack1Size / 10F);
                 attack.Initialise(damageModifier, sizeModifier);
 
                 // Reset attack timer
@@ -144,7 +157,7 @@ public class PlayerController : MonoBehaviour
                 }
 
                 // Create N projectiles scattered across a range
-                float damageModifier = 1 + this.stats.Attack2Strength / 5F;
+                float damageModifier = Mathf.Max(0.5F, this.stats.Attack2Strength / 5F);
                 int numProjectiles = this.stats.Attack2NumberOfProjectiles;
 
                 // Scatter range is wider for more projectiles
@@ -169,6 +182,43 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void UpdateHelixInteraction()
+    {
+        if (Input.GetButtonDown("Action1"))
+        {
+            // Debug.Log("@TODO COLLECT HELIX");
+            this.collectedHelixes.Add(this.currentInteractingHelix);
+            this.currentInteractingHelix.Consume();
+        }
+        else if (Input.GetButtonDown("Action2"))
+        {
+            Debug.Log("Stats Before:");
+            DumpStats();
+            this.stats.ApplyHelix(this.currentInteractingHelix);
+            this.currentInteractingHelix.Consume();
+            Debug.Log("Stats After:");
+            DumpStats();
+
+            // Debug.Log("YOOO MERGING WITH DNA RIGHT NOW!!");
+            // Debug.Log("\tAttack1StrengthModifier: " + this.currentInteractingHelix.Attack1StrengthModifier);
+            // Debug.Log("\tAttack1SizeModifier: " + this.currentInteractingHelix.Attack1SizeModifier);
+            // Debug.Log("\tAttack2StrengthModifier: " + this.currentInteractingHelix.Attack2StrengthModifier);
+            // Debug.Log("\tAttack2NumberOfProjectilesModifier: " + this.currentInteractingHelix.Attack2NumberOfProjectilesModifier);
+            // Debug.Log("\tSpeedModifier: " + this.currentInteractingHelix.SpeedModifier);
+            // Debug.Log("\tHitpointsModifier: " + this.currentInteractingHelix.HitpointsModifier);
+        }
+    }
+
+    void DumpStats()
+    {
+        Debug.Log("Attack1Strength: " + this.stats.Attack1Strength);
+        Debug.Log("Attack1Size: " + this.stats.Attack1Size);
+        Debug.Log("Attack2Strength: " + this.stats.Attack2Strength);
+        Debug.Log("Attack2NumberOfProjectiles: " + this.stats.Attack2NumberOfProjectiles);
+        Debug.Log("Speed: " + this.stats.Speed);
+        Debug.Log("Hitpoints: " + this.stats.Hitpoints);
+    }
+
     public void BeginAutopilot(Vector2 direction)
     {
         this.isAutopilot = true;
@@ -181,6 +231,16 @@ public class PlayerController : MonoBehaviour
         this.autopilotDirection = Vector2.zero;
     }
 
+    public void BeginInteractingWithHelix(Helix helix)
+    {
+        this.currentInteractingHelix = helix;
+    }
+
+    public void EndInteractingWithHelix()
+    {
+        this.currentInteractingHelix = null;
+    }
+
     void OnDeath()
     {
         Debug.Log("YOU LOSE!");
@@ -191,5 +251,10 @@ public class PlayerController : MonoBehaviour
     void OnDamage()
     {
         this.spriteAnimator.SetTrigger("Damage");
+    }
+
+    private bool IsInteractingWithHelix
+    {
+        get { return this.currentInteractingHelix != null; }
     }
 }

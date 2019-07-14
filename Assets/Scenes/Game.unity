@@ -429,7 +429,6 @@ MonoBehaviour:
     type: 2}
   MagicAttackPrefab: {fileID: 114918306422968916, guid: 3bc2c3f27e5f54431a2f8d2d16efdf4e,
     type: 2}
-  speed: 5
   attack1RateOfFire: 2.3
   attack2RateOfFire: 14
 --- !u!50 &1076856888
@@ -490,12 +489,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5219da7bfe692492fa0cbc630c90fb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attack1Strength: 1
-  _attack1Size: 1
-  _attack2Strength: 1
+  _attack1Strength: 5
+  _attack1Size: 10
+  _attack2Strength: 5
   _attack2NumberOfProjectiles: 1
-  _speed: 1
-  _hitpoints: 300
+  _speed: 5
+  _hitpoints: 20
 --- !u!114 &1076856892
 MonoBehaviour:
   m_ObjectHideFlags: 0

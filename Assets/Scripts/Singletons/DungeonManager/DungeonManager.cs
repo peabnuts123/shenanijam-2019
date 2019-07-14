@@ -256,13 +256,7 @@ public class DungeonManager : MonoBehaviour
         int x = roomCoordinate.x;
         int y = roomCoordinate.y;
 
-        // Set up RNG seeded by arbitrary number + also room coordinate
-        //  so that every room is always generated the same but is unique
-        //  for every coordinate
-        float cantorCoordinate = (0.5F * ((5 * x) + (5 * y)) * ((5 * x) + (5 * y) + 1)) + (5 * y);
-        int seed = Mathf.RoundToInt(DUNGEON_SEED + cantorCoordinate);
-        var random = new System.Random(seed);
-        Debug.Log($"Random seed for coordinate ({x}, {y}): {seed} (Cantor: {cantorCoordinate})");
+        var random = GetRNGForRoomCoordinate(roomCoordinate);
 
         if (random.NextDouble() < rewardRoomFrequency)
         {
@@ -275,8 +269,9 @@ public class DungeonManager : MonoBehaviour
         {
             // Monster room >:E 
             // Difficulty is distance from center in number of rooms, and always at least 1
-            int difficulty = Mathf.Max(1, Mathf.RoundToInt(Mathf.Sqrt(x * x + y * y)));
-            // @TODO difficulty curve
+            int difficulty = GetDifficultyScoreForRoomCoordinate(roomCoordinate);
+
+            // @TODO better difficulty curve
             int numMonsters = difficulty;
             Debug.Log($"Generating monster room at ({x}, {y}) with {numMonsters} monsters");
 
@@ -305,9 +300,37 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
+    public System.Random GetRNGForRoomCoordinate(Vector2Int roomCoordinate)
+    {
+        var x = roomCoordinate.x;
+        var y = roomCoordinate.y;
+
+        // Set up RNG seeded by arbitrary number + also room coordinate
+        //  so that every room is always generated the same but is unique
+        //  for every coordinate
+        float cantorCoordinate = (0.5F * ((5 * x) + (5 * y)) * ((5 * x) + (5 * y) + 1)) + (5 * y);
+        int seed = Mathf.RoundToInt(DUNGEON_SEED + cantorCoordinate);
+        return new System.Random(seed);
+    }
+
+    public int GetDifficultyScoreForRoomCoordinate(Vector2Int roomCoordinate)
+    {
+        var x = roomCoordinate.x;
+        var y = roomCoordinate.y;
+
+        // Difficulty it just distance from center 
+        //   Is that cool?
+        return Mathf.Max(1, Mathf.RoundToInt(Mathf.Sqrt(x * x + y * y)));
+    }
+
     private Vector3 ConvertRoomCoordinateToWorldCoordinate(Vector2Int roomCoordinate)
     {
         return new Vector3(roomCoordinate.x * DIMENSION_WIDTH_UNITS, roomCoordinate.y * DIMENSION_HEIGHT_UNITS);
     }
 
+    // Properties
+    public PlayerController Player
+    {
+        get { return this.player; }
+    }
 }

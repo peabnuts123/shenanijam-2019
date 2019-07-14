@@ -27,6 +27,19 @@ public class PlayerStats : MonoBehaviour
         this.Hitpoints = this.Hitpoints;
     }
 
+    public void ApplyHelix(Helix helix)
+    {
+        this.Attack1Strength = Mathf.Max(1, Mathf.RoundToInt(this.Attack1Strength * helix.Attack1StrengthModifier));
+        this.Attack1Size = Mathf.Max(1, Mathf.RoundToInt(this.Attack1Size * helix.Attack1SizeModifier));
+
+        this.Attack2Strength = Mathf.Max(1, Mathf.RoundToInt(this.Attack2Strength * helix.Attack2StrengthModifier));
+        this.Attack2NumberOfProjectiles = Mathf.Max(1, Mathf.RoundToInt(this.Attack2NumberOfProjectiles * helix.Attack2NumberOfProjectilesModifier));
+
+        this.Speed = Mathf.Max(1, Mathf.RoundToInt(this.Speed * helix.SpeedModifier));
+
+        this.Hitpoints = Mathf.Max(1, Mathf.RoundToInt(this.Hitpoints * helix.HitpointsModifier));
+    }
+
 
     // Properties
     public int Attack1Strength

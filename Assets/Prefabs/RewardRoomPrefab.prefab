@@ -731,6 +731,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rewardRoom: {fileID: 114466807732944602}
+  attack1StrengthModifier: 1
+  attack1SizeModifier: 1
+  attack2StrengthModifier: 1
+  attack2NumberOfProjectilesModifier: 1
+  speedModifier: 1
+  hitpointsModifier: 10
 --- !u!114 &114696493091856460
 MonoBehaviour:
   m_ObjectHideFlags: 1
