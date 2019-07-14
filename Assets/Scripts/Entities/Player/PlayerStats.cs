@@ -29,15 +29,20 @@ public class PlayerStats : MonoBehaviour
 
     public void ApplyHelix(Helix helix)
     {
-        this.Attack1Strength = Mathf.Max(1, Mathf.RoundToInt(this.Attack1Strength * helix.Attack1StrengthModifier));
-        this.Attack1Size = Mathf.Max(1, Mathf.RoundToInt(this.Attack1Size * helix.Attack1SizeModifier));
+        this.Attack1Strength = GetUpdatedStat(this.Attack1Strength, helix.Attack1StrengthModifier);
+        this.Attack1Size = GetUpdatedStat(this.Attack1Size, helix.Attack1SizeModifier);
 
-        this.Attack2Strength = Mathf.Max(1, Mathf.RoundToInt(this.Attack2Strength * helix.Attack2StrengthModifier));
-        this.Attack2NumberOfProjectiles = Mathf.Max(1, Mathf.RoundToInt(this.Attack2NumberOfProjectiles * helix.Attack2NumberOfProjectilesModifier));
+        this.Attack2Strength = GetUpdatedStat(this.Attack2Strength, helix.Attack2StrengthModifier);
+        this.Attack2NumberOfProjectiles = GetUpdatedStat(this.Attack2NumberOfProjectiles, helix.Attack2NumberOfProjectilesModifier);
 
-        this.Speed = Mathf.Max(1, Mathf.RoundToInt(this.Speed * helix.SpeedModifier));
+        this.Speed = GetUpdatedStat(this.Speed, helix.SpeedModifier);
 
-        this.Hitpoints = Mathf.Max(1, Mathf.RoundToInt(this.Hitpoints * helix.HitpointsModifier));
+        this.Hitpoints = GetUpdatedStat(this.Hitpoints, helix.HitpointsModifier);
+    }
+
+    public int GetUpdatedStat(int current, float modifier)
+    {
+        return Mathf.Max(1, Mathf.RoundToInt(current * modifier));
     }
 
     public void FullHeal()

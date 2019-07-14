@@ -26,6 +26,10 @@ public class PlayerController : MonoBehaviour
     public MagicAttack MagicAttackPrefab;
     [NotNull]
     public StatsBarController statsBarController;
+    [NotNull]
+    public StatusBarController statusBarController;
+    [NotNull]
+    public CompareScreenController compareScreenController;
 
     // Public config
     public float attack1RateOfFire = 2.3F;
@@ -53,6 +57,7 @@ public class PlayerController : MonoBehaviour
 
         this.collectedHelixes = new List<Helix>();
         RefreshStatsBar();
+        this.statusBarController.HelixCount = this.collectedHelixes.Count;
     }
 
     void Update()
@@ -191,6 +196,7 @@ public class PlayerController : MonoBehaviour
         {
             this.collectedHelixes.Add(this.currentInteractingHelix);
             this.currentInteractingHelix.Consume();
+            this.statusBarController.HelixCount = this.collectedHelixes.Count;
         }
         else if (Input.GetButtonDown("Action2"))
         {
@@ -245,11 +251,43 @@ public class PlayerController : MonoBehaviour
     public void BeginInteractingWithHelix(Helix helix)
     {
         this.currentInteractingHelix = helix;
+
+        // Populate compare screen
+        this.compareScreenController.BlastPowerCurrent = this.stats.Attack1Strength;
+        this.compareScreenController.BlastPowerMultiplier = helix.Attack1StrengthModifier;
+        this.compareScreenController.BlastPowerResult = this.stats.GetUpdatedStat(this.stats.Attack1Strength, helix.Attack1StrengthModifier);
+
+        this.compareScreenController.BlastSizeCurrent = this.stats.Attack1Size;
+        this.compareScreenController.BlastSizeMultiplier = helix.Attack1SizeModifier;
+        this.compareScreenController.BlastSizeResult = this.stats.GetUpdatedStat(this.stats.Attack1Size, helix.Attack1SizeModifier);
+
+        this.compareScreenController.OrbPowerCurrent = this.stats.Attack2Strength;
+        this.compareScreenController.OrbPowerMultiplier = helix.Attack2StrengthModifier;
+        this.compareScreenController.OrbPowerResult = this.stats.GetUpdatedStat(this.stats.Attack2Strength, helix.Attack2StrengthModifier);
+
+        this.compareScreenController.OrbCountCurrent = this.stats.Attack2NumberOfProjectiles;
+        this.compareScreenController.OrbCountMultiplier = helix.Attack2NumberOfProjectilesModifier;
+        this.compareScreenController.OrbCountResult = this.stats.GetUpdatedStat(this.stats.Attack2NumberOfProjectiles, helix.Attack2NumberOfProjectilesModifier);
+
+        this.compareScreenController.SpeedCurrent = this.stats.Speed;
+        this.compareScreenController.SpeedMultiplier = helix.SpeedModifier;
+        this.compareScreenController.SpeedResult = this.stats.GetUpdatedStat(this.stats.Speed, helix.SpeedModifier);
+
+        this.compareScreenController.HealthCurrent = this.stats.Hitpoints;
+        this.compareScreenController.HealthMultiplier = helix.HitpointsModifier;
+        this.compareScreenController.HealthResult = this.stats.GetUpdatedStat(this.stats.Hitpoints, helix.HitpointsModifier);
+
+
+        this.compareScreenController.gameObject.SetActive(true);
+        this.statsBarController.gameObject.SetActive(false);
     }
 
     public void EndInteractingWithHelix()
     {
         this.currentInteractingHelix = null;
+
+        this.compareScreenController.gameObject.SetActive(false);
+        this.statsBarController.gameObject.SetActive(true);
     }
 
     void OnDeath()

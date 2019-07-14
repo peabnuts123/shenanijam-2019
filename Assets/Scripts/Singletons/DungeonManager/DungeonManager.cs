@@ -22,6 +22,8 @@ public class DungeonManager : MonoBehaviour
     public PlayerController player;
     [NotNull(IgnorePrefab = true)]
     public new Camera camera;
+    [NotNull(IgnorePrefab = true)]
+    public StatusBarController statusBarController;
 
     // Public config
     [NotNull]
@@ -63,6 +65,7 @@ public class DungeonManager : MonoBehaviour
         LoadRoomAtCoordinate(new Vector2Int(-1, 0));
 
         GetRoomWithCoordinate(Vector2Int.zero).areTriggersEnabled = true;
+        this.statusBarController.Location = "0, 0";
     }
 
     public void BeginTransitionRoom(RoomTransitionDirection transitionDirection)
@@ -172,6 +175,9 @@ public class DungeonManager : MonoBehaviour
         room.areTriggersEnabled = true;
 
         player.EndAutopilot();
+
+        // Update status bar coordinate
+        this.statusBarController.Location = $"{this.currentCoordinate.x}, {this.currentCoordinate.y}";
     }
 
     void LoadRoomAtCoordinate(Vector2Int roomCoordinate)
