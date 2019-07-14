@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     public StatusBarController statusBarController;
     [NotNull]
     public CompareScreenController compareScreenController;
+    [NotNull]
+    public GameOverController gameOverController;
 
     // Public config
     public float attack1RateOfFire = 2.3F;
@@ -292,9 +294,9 @@ public class PlayerController : MonoBehaviour
 
     void OnDeath()
     {
-        Debug.Log("YOU LOSE!");
-        // @TODO @DEBUG
         Destroy(this.gameObject);
+        this.gameOverController.HelixCount = this.collectedHelixes.Count;
+        this.gameOverController.ShowGameOverScreen();
     }
 
     void OnDamage()
