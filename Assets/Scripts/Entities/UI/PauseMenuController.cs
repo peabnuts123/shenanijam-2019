@@ -12,16 +12,25 @@ public class PauseMenuController : MonoBehaviour
     public void ShowPauseMenu()
     {
         this.pauseMenuObject.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void HidePauseMenu()
     {
         this.pauseMenuObject.SetActive(false);
+        Time.timeScale = 1;
     }
 
     public void TogglePauseMenu()
     {
-        this.pauseMenuObject.SetActive(!this.pauseMenuObject.activeSelf);
+        if (this.pauseMenuObject.activeSelf)
+        {
+            HidePauseMenu();
+        }
+        else
+        {
+            ShowPauseMenu();
+        }
     }
 
     public void ExitApplication()

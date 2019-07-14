@@ -42,6 +42,11 @@ public class MagicProjectile : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (Time.timeScale == 0)
+        {
+            return;
+        }
+
         // Ensure no projectiles last too long
         this.timeAliveSeconds += Time.deltaTime;
         if (this.timeAliveSeconds >= MAX_LIFETIME_SECONDS)

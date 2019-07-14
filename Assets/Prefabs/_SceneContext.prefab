@@ -390,7 +390,7 @@ MonoBehaviour:
   DIMENSION_HEIGHT_UNITS: 24
   SPAWN_AREA_WIDTH_UNITS: 18
   SPAWN_AREA_HEIGHT_UNITS: 14.5
-  rewardRoomFrequency: 0.05
+  rewardRoomFrequency: 0.15
 --- !u!114 &114411233280319418
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -17,11 +17,13 @@ public class GameOverController : MonoBehaviour
     public void ShowGameOverScreen()
     {
         this.gameOverObject.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void HideGameOverScreen()
     {
         this.gameOverObject.SetActive(false);
+        Time.timeScale = 1;
     }
 
     public void PlayAgain()

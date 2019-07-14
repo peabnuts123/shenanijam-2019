@@ -88,6 +88,11 @@ public class MonsterController : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0)
+        {
+            return;
+        }
+
         if (isAwake)
         {
             Vector2 targetDelta = this.target.position - this.transform.position;

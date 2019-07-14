@@ -82,6 +82,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0)
+        {
+            return;
+        }
+
         UpdateMovement();
 
         if (this.IsInteractingWithHelix)
@@ -147,7 +152,7 @@ public class PlayerController : MonoBehaviour
                 float damageModifier = Mathf.Max(0.5F, this.stats.Attack1Strength / 5F);
                 float sizeModifier = Mathf.Max(0.5F, this.stats.Attack1Size / 10F);
                 attack.Initialise(damageModifier, sizeModifier);
-                
+
                 // Play audio
                 this.audioPlayer.PlayClipRandom(this.blastAttackAudio);
 
