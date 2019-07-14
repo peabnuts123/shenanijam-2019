@@ -13,7 +13,7 @@
   - ~~~HUD for player's stats + DNA collected~~~
   - ~~~HUD for picking up Reward~~~
   - ~~~Death screen~~~
-  - Sound 🔈
+  - ~~~Sound 🔈~~~
   - 🎉 Game is Playable
   - Monsters difficulty curve
   - Enemies visually reflect their strength
