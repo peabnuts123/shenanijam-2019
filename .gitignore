@@ -36,6 +36,6 @@ sysinfo.txt
 *.unitypackage
 
 # Game
-Bfxr.app/
-Assets/Media/Raw/
-Media/
+/Bfxr.app/
+/Assets/Media/Raw/
+/Media/
