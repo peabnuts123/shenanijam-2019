@@ -7,8 +7,8 @@
   - ~~~Player attack1 does damage n' stuff~~~
   - ~~~Reward and Monster rooms actually spawn~~~
   - ~~~Player actually has stats~~~
-  - Player can combine with DNA
-  - Player can collect with DNA
+  - ~~~Player can combine with DNA~~~
+  - ~~~Player can collect with DNA~~~
   - 🎉 Gameplay loop closes
   - HUD for player's stats + DNA collected
   - HUD for picking up Reward

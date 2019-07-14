@@ -24,7 +24,7 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         // Force update to hitpoints
-        this.Hitpoints = this.Hitpoints;
+        FullHeal();
     }
 
     public void ApplyHelix(Helix helix)
@@ -38,6 +38,11 @@ public class PlayerStats : MonoBehaviour
         this.Speed = Mathf.Max(1, Mathf.RoundToInt(this.Speed * helix.SpeedModifier));
 
         this.Hitpoints = Mathf.Max(1, Mathf.RoundToInt(this.Hitpoints * helix.HitpointsModifier));
+    }
+
+    public void FullHeal()
+    {
+        this.damageable.healthPoints = this.Hitpoints;
     }
 
 

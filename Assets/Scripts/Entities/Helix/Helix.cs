@@ -29,8 +29,7 @@ public class Helix : MonoBehaviour
 
     void Start()
     {
-        var difficulty = dungeonManager.GetDifficultyScoreForRoomCoordinate(rewardRoom.roomCoordinate);
-        var random = dungeonManager.GetRNGForRoomCoordinate(rewardRoom.roomCoordinate);
+        // var difficulty = dungeonManager.GetDifficultyScoreForRoomCoordinate(rewardRoom.roomCoordinate);
 
         // I DIDN'T DESIGN THIS VERY WELL
         //  AND NOW THESE NUMBERS ARE ALL MAGIC
@@ -101,23 +100,23 @@ public class Helix : MonoBehaviour
         // float hitpointsCurve = ExponentialCurve(difficulty, exponent: 1.3F, scalar: 0.25F);
         // this.hitpoints = Mathf.Max(1, Mathf.RoundToInt(hitpointsCurve * hitpointsCoefficient));
 
-        this.attack1StrengthModifier = RollModifier(random);
-        this.attack1SizeModifier = RollModifier(random);
-        this.attack2StrengthModifier = RollModifier(random);
-        this.attack2NumberOfProjectilesModifier = RollModifier(random);
-        this.speedModifier = RollModifier(random);
-        this.hitpointsModifier = RollModifier(random);
+        this.attack1StrengthModifier = RollModifier();
+        this.attack1SizeModifier = RollModifier();
+        this.attack2StrengthModifier = RollModifier();
+        this.attack2NumberOfProjectilesModifier = RollModifier();
+        this.speedModifier = RollModifier();
+        this.hitpointsModifier = RollModifier();
     }
 
     // Shamelessly nabbed from http://answers.unity.com/answers/615120/view.html
-    private float RollModifier(System.Random random)
+    private float RollModifier()
     {
         float u, v, S;
 
         do
         {
-            u = (float)(2.0F * random.NextDouble() - 1.0F);
-            v = (float)(2.0F * random.NextDouble() - 1.0F);
+            u = 2.0F * Random.Range(0F, 1F) - 1.0F;
+            v = 2.0F * Random.Range(0F, 1F) - 1.0F;
             S = u * u + v * v;
         }
         while (S >= 1.0F);

@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     public MagicProjectile MagicProjectilePrefab;
     [NotNull]
     public MagicAttack MagicAttackPrefab;
+    [NotNull]
+    public StatsBarController statsBarController;
 
     // Public config
     public float attack1RateOfFire = 2.3F;
@@ -50,6 +52,7 @@ public class PlayerController : MonoBehaviour
         this.damageable.OnDamage += this.OnDamage;
 
         this.collectedHelixes = new List<Helix>();
+        RefreshStatsBar();
     }
 
     void Update()
@@ -186,26 +189,23 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Action1"))
         {
-            // Debug.Log("@TODO COLLECT HELIX");
             this.collectedHelixes.Add(this.currentInteractingHelix);
             this.currentInteractingHelix.Consume();
         }
         else if (Input.GetButtonDown("Action2"))
         {
             Debug.Log("Stats Before:");
+            // @TODO
             DumpStats();
             this.stats.ApplyHelix(this.currentInteractingHelix);
             this.currentInteractingHelix.Consume();
             Debug.Log("Stats After:");
             DumpStats();
 
-            // Debug.Log("YOOO MERGING WITH DNA RIGHT NOW!!");
-            // Debug.Log("\tAttack1StrengthModifier: " + this.currentInteractingHelix.Attack1StrengthModifier);
-            // Debug.Log("\tAttack1SizeModifier: " + this.currentInteractingHelix.Attack1SizeModifier);
-            // Debug.Log("\tAttack2StrengthModifier: " + this.currentInteractingHelix.Attack2StrengthModifier);
-            // Debug.Log("\tAttack2NumberOfProjectilesModifier: " + this.currentInteractingHelix.Attack2NumberOfProjectilesModifier);
-            // Debug.Log("\tSpeedModifier: " + this.currentInteractingHelix.SpeedModifier);
-            // Debug.Log("\tHitpointsModifier: " + this.currentInteractingHelix.HitpointsModifier);
+            // Heal
+            this.stats.FullHeal();
+
+            RefreshStatsBar();
         }
     }
 
@@ -217,6 +217,17 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Attack2NumberOfProjectiles: " + this.stats.Attack2NumberOfProjectiles);
         Debug.Log("Speed: " + this.stats.Speed);
         Debug.Log("Hitpoints: " + this.stats.Hitpoints);
+    }
+
+    void RefreshStatsBar()
+    {
+        this.statsBarController.BlastStrength = this.stats.Attack1Strength;
+        this.statsBarController.BlastSize = this.stats.Attack1Size;
+        this.statsBarController.OrbStrength = this.stats.Attack2Strength;
+        this.statsBarController.OrbCount = this.stats.Attack2NumberOfProjectiles;
+        this.statsBarController.Speed = this.stats.Speed;
+        this.statsBarController.MaxHealth = this.stats.Hitpoints;
+        this.statsBarController.CurrentHealth = Mathf.CeilToInt(this.damageable.healthPoints);
     }
 
     public void BeginAutopilot(Vector2 direction)
@@ -251,6 +262,7 @@ public class PlayerController : MonoBehaviour
     void OnDamage()
     {
         this.spriteAnimator.SetTrigger("Damage");
+        RefreshStatsBar();
     }
 
     private bool IsInteractingWithHelix
