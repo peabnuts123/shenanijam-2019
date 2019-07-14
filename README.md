@@ -9,10 +9,10 @@
   - ~~~Player actually has stats~~~
   - Player can combine with DNA
   - Player can collect with DNA
-  - Monsters have stats too
   - 🎉 Gameplay loop closes
   - HUD for player's stats + DNA collected
   - HUD for picking up Reward
+  - Monsters have stats too
   - Death screen
   - Sound 🔈
   - 🎉 Game is Playable

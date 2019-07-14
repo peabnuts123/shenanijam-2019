@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         this.damageable.OnDeath += this.OnDeath;
+        this.damageable.OnDamage += this.OnDamage;
     }
 
     void Update()
@@ -185,5 +186,10 @@ public class PlayerController : MonoBehaviour
         Debug.Log("YOU LOSE!");
         // @TODO @DEBUG
         Destroy(this.gameObject);
+    }
+
+    void OnDamage()
+    {
+        this.spriteAnimator.SetTrigger("Damage");
     }
 }

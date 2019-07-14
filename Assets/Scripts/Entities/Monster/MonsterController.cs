@@ -39,6 +39,7 @@ public class MonsterController : MonoBehaviour
     void Start()
     {
         this.damageable.OnDeath += this.OnDeath;
+        this.damageable.OnDamage += this.OnDamage;
         this.targetDamageable = this.target.GetComponent<Damageable>();
 
         if (this.targetDamageable != null)
@@ -113,6 +114,11 @@ public class MonsterController : MonoBehaviour
         {
             this.rigidBody.velocity = Vector2.zero;
         }
+    }
+
+    void OnDamage()
+    {
+        this.spriteAnimator.SetTrigger("Damage");
     }
 
     void OnDeath()

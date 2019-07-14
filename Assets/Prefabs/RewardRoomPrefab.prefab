@@ -86,7 +86,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4492234507576500}
   - component: {fileID: 212965542243160052}
-  - component: {fileID: 95780958599676308}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -144,6 +143,7 @@ GameObject:
   - component: {fileID: 4713611960041578}
   - component: {fileID: 114683828400656196}
   - component: {fileID: 61262177211552286}
+  - component: {fileID: 95739413127956436}
   m_Layer: 0
   m_Name: Helix
   m_TagString: Untagged
@@ -257,7 +257,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1606413000649128}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.78, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4713611960041578}
@@ -296,7 +296,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1746364925689614}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.13, y: 1.66, z: 0}
+  m_LocalPosition: {x: 0.13, y: 2.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4492234507576500}
@@ -649,13 +649,13 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 8, y: 5.438257}
   m_EdgeRadius: 0
---- !u!95 &95780958599676308
+--- !u!95 &95739413127956436
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1606413000649128}
+  m_GameObject: {fileID: 1746364925689614}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 481ea79c4f0e9409c8db60d3762b9909, type: 2}
@@ -717,6 +717,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4bccf888d4c7411a8be233e2fe15727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  helix: {fileID: 114683828400656196}
+  hasRewardBeenTaken: 0
 --- !u!114 &114683828400656196
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -728,6 +730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87527d46163654dae98f68d0adfa5de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rewardRoom: {fileID: 114466807732944602}
 --- !u!114 &114696493091856460
 MonoBehaviour:
   m_ObjectHideFlags: 1

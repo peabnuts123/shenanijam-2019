@@ -134,6 +134,24 @@ public class DungeonManager : MonoBehaviour
             player.BeginAutopilot(Vector2.up);
         }
 
+        // Persist state of old room
+        var oldRoomTemplate = GetOrGenerateRoomTemplateForCoordinate(oldCoordinate);
+        var oldRoom = GetRoomWithCoordinate(oldCoordinate);
+        if (oldRoomTemplate is RewardRoomTemplate)
+        {
+            var oldRewardRoomTemplate = oldRoomTemplate as RewardRoomTemplate;
+            var oldRewardRoom = oldRoom as RewardRoom;
+
+            // Save whether the DNA has been collected or not
+            oldRewardRoomTemplate.hasRewardBeenTaken = oldRewardRoom.hasRewardBeenTaken;
+        }
+        // else if (oldRoomTemplate is MonsterRoomTemplate)
+        // {
+        //     // @NOTE Nothing to save
+        // }
+
+
+
         // Animate camera
         var currentCameraPosition = this.camera.transform.position;
         var newCameraPosition = ConvertRoomCoordinateToWorldCoordinate(this.currentCoordinate);
@@ -152,7 +170,7 @@ public class DungeonManager : MonoBehaviour
         // Enable the ones in the current room
         DungeonRoom room = GetRoomWithCoordinate(this.currentCoordinate);
         room.areTriggersEnabled = true;
-        
+
         player.EndAutopilot();
     }
 
@@ -241,7 +259,7 @@ public class DungeonManager : MonoBehaviour
         // Set up RNG seeded by arbitrary number + also room coordinate
         //  so that every room is always generated the same but is unique
         //  for every coordinate
-        float cantorCoordinate = (0.5F * ((5*x) + (5*y)) * ((5*x) + (5*y) + 1)) + (5*y);
+        float cantorCoordinate = (0.5F * ((5 * x) + (5 * y)) * ((5 * x) + (5 * y) + 1)) + (5 * y);
         int seed = Mathf.RoundToInt(DUNGEON_SEED + cantorCoordinate);
         var random = new System.Random(seed);
         Debug.Log($"Random seed for coordinate ({x}, {y}): {seed} (Cantor: {cantorCoordinate})");
