@@ -32,6 +32,18 @@ public class PlayerController : MonoBehaviour
     public CompareScreenController compareScreenController;
     [NotNull]
     public GameOverController gameOverController;
+    [NotNull]
+    public AudioClip playerHurtAudio;
+    [NotNull]
+    public AudioClip playerDieAudio;
+    [NotNull]
+    public AudioClip blastAttackAudio;
+    [NotNull]
+    public AudioClip orbAttackAudio;
+    [NotNull]
+    public AudioClip collectHelixAudio;
+    [NotNull]
+    public AudioClip combineHelixAudio;
 
     // Public config
     public float attack1RateOfFire = 2.3F;
@@ -42,6 +54,10 @@ public class PlayerController : MonoBehaviour
     private Damageable damageable;
     [Inject]
     private PlayerStats stats;
+    [Inject]
+    private AudioPlayer audioPlayer;
+    [Inject]
+    private DiContainer Container;
 
     // Private state
     private bool isAutopilot = false;
@@ -131,6 +147,9 @@ public class PlayerController : MonoBehaviour
                 float damageModifier = Mathf.Max(0.5F, this.stats.Attack1Strength / 5F);
                 float sizeModifier = Mathf.Max(0.5F, this.stats.Attack1Size / 10F);
                 attack.Initialise(damageModifier, sizeModifier);
+                
+                // Play audio
+                this.audioPlayer.PlayClipRandom(this.blastAttackAudio);
 
                 // Reset attack timer
                 this.attack1Timer = 1.0F / this.attack1RateOfFire;
@@ -176,11 +195,16 @@ public class PlayerController : MonoBehaviour
 
                 for (int i = 0; i < numProjectiles; i++)
                 {
-                    MagicProjectile projectile = Instantiate(MagicProjectilePrefab, this.transform.position, Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward));
+                    MagicProjectile projectile = Container.InstantiatePrefab(MagicProjectilePrefab).GetComponent<MagicProjectile>();
+                    projectile.transform.position = this.transform.position;
+                    projectile.transform.rotation = Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward);
 
                     float angle = Random.Range(-scatterAngle / 2, scatterAngle / 2);
                     projectile.Initialise(Quaternion.AngleAxis(angle, Vector3.forward) * baseVelocity, damageModifier);
                 }
+
+                // Play audio
+                this.audioPlayer.PlayClipRandom(this.orbAttackAudio, 0.15F);
 
                 // Reset attack timer
                 this.attack2Timer = 1.0F / this.attack2RateOfFire;
@@ -197,14 +221,22 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Action1"))
         {
+            // Collect helix
             this.collectedHelixes.Add(this.currentInteractingHelix);
             this.currentInteractingHelix.Consume();
             this.statusBarController.HelixCount = this.collectedHelixes.Count;
+
+            // Play audio
+            this.audioPlayer.PlayClip(this.collectHelixAudio);
         }
         else if (Input.GetButtonDown("Action2"))
         {
+            // Combine with helix
             this.stats.ApplyHelix(this.currentInteractingHelix);
             this.currentInteractingHelix.Consume();
+
+            // Play audio
+            this.audioPlayer.PlayClip(this.combineHelixAudio);
 
             // Heal
             this.stats.FullHeal();
@@ -280,6 +312,7 @@ public class PlayerController : MonoBehaviour
 
     void OnDeath()
     {
+        this.audioPlayer.PlayClipRandom(this.playerDieAudio);
         Destroy(this.gameObject);
         this.gameOverController.HelixCount = this.collectedHelixes.Count;
         this.gameOverController.ShowGameOverScreen();
@@ -288,6 +321,7 @@ public class PlayerController : MonoBehaviour
     void OnDamage()
     {
         this.spriteAnimator.SetTrigger("Damage");
+        this.audioPlayer.PlayClipRandom(this.playerHurtAudio);
         RefreshStatsBar();
     }
 

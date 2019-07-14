@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class MagicProjectile : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class MagicProjectile : MonoBehaviour
     public GameObject projectileSpriteObject;
     [NotNull]
     public GameObject fizzleSpriteObject;
+    [NotNull]
+    public AudioClip orbFizzleAudio;
+
+    // Private references
+    [Inject]
+    private AudioPlayer audioPlayer;
 
     // Public config
     public int damage = 5;
@@ -52,6 +59,9 @@ public class MagicProjectile : MonoBehaviour
             this.projectileSpriteObject.SetActive(false);
             this.fizzleSpriteObject.SetActive(true);
             this.rigidBody.velocity = Vector2.zero;
+
+            // Play fizzle sound
+            this.audioPlayer.PlayClipRandom(this.orbFizzleAudio, 0.15F);
 
             // Damage the thing it hit
             var damageable = other.GetComponent<Damageable>();

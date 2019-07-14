@@ -2089,11 +2089,6 @@ Prefab:
       propertyPath: statusBarController
       value: 
       objectReference: {fileID: 401893937}
-    - target: {fileID: 114409693634548164, guid: 56a216247913145d5b91ad89bef8269b,
-        type: 2}
-      propertyPath: rewardRoomFrequency
-      value: 0.05
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 56a216247913145d5b91ad89bef8269b, type: 2}
   m_IsPrefabParent: 0
@@ -2982,6 +2977,12 @@ MonoBehaviour:
   statusBarController: {fileID: 401893937}
   compareScreenController: {fileID: 1517450617}
   gameOverController: {fileID: 1809061195}
+  playerHurtAudio: {fileID: 8300000, guid: 4614e1397797442608b6d7bc158e2980, type: 3}
+  playerDieAudio: {fileID: 8300000, guid: b82628e18c3c24b9aa25556a00bec717, type: 3}
+  blastAttackAudio: {fileID: 8300000, guid: 5e0af2ccde5844e53b47d0a9fc80bff0, type: 3}
+  orbAttackAudio: {fileID: 8300000, guid: 9fdcd517fefb247409f4f5655231c7ff, type: 3}
+  collectHelixAudio: {fileID: 8300000, guid: 89a9c39425536409eb778bac3b636424, type: 3}
+  combineHelixAudio: {fileID: 8300000, guid: eac3bcca8162847fea4b48a2a67e2add, type: 3}
   attack1RateOfFire: 2.3
   attack2RateOfFire: 14
 --- !u!50 &1076856888

@@ -16,6 +16,11 @@ public class MonsterController : MonoBehaviour
     public float attackRange = 4;
     public float aggressiveness = 0.7F;
     public float responsiveness = 10;
+    [NotNull]
+    public AudioClip monsterHitAudio;
+    [NotNull]
+    public AudioClip monsterDieAudio;
+
 
     // Public references
     [NotNull]
@@ -29,6 +34,8 @@ public class MonsterController : MonoBehaviour
     [Inject]
     private Damageable damageable;
     private Damageable targetDamageable;
+    [Inject]
+    private AudioPlayer audioPlayer;
 
     // Private State
     private float actionTimer = 0;
@@ -119,12 +126,13 @@ public class MonsterController : MonoBehaviour
     void OnDamage()
     {
         this.spriteAnimator.SetTrigger("Damage");
+        this.audioPlayer.PlayClipRandom(this.monsterHitAudio);
     }
 
     void OnDeath()
     {
-        // @TODO play an animation
         Destroy(this.gameObject);
+        this.audioPlayer.PlayClipRandom(this.monsterDieAudio);
     }
 
     void OnTargetDeath()

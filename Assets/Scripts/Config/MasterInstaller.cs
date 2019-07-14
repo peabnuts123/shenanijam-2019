@@ -11,6 +11,8 @@ public class MasterInstaller : MonoInstaller
     public DungeonManager singleton_DungeonManager;
     [NotNull]
     public ValueAnimator singleton_ValueAnimator;
+    [NotNull]
+    public AudioPlayer singleton_AudioPlayer;
 
     public override void InstallBindings()
     {
@@ -18,6 +20,7 @@ public class MasterInstaller : MonoInstaller
         Container.Bind<ThreadedCoroutine>().FromInstance(singleton_ThreadedCoroutine);
         Container.Bind<DungeonManager>().FromInstance(singleton_DungeonManager);
         Container.Bind<ValueAnimator>().FromInstance(singleton_ValueAnimator);
+        Container.Bind<AudioPlayer>().FromInstance(singleton_AudioPlayer);
 
         // Self References
         Container.Bind<Rigidbody2D>().FromComponentSibling();

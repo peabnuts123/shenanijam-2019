@@ -12,18 +12,37 @@
   - 🎉 Gameplay loop closes
   - ~~~HUD for player's stats + DNA collected~~~
   - ~~~HUD for picking up Reward~~~
-  - Death screen
+  - ~~~Death screen~~~
   - Sound 🔈
   - 🎉 Game is Playable
-  - Monsters have stats too
-  - Intro splash screen
-  - Main menu
-  - Pause menu
-  - 🎉 Game's done!
-
-## Polish Things
+  - Monsters difficulty curve
   - Enemies visually reflect their strength
     - Size, Color, Animation nuances
+  - ~~~Pause menu~~~
+  - 🎉 Game's done!
+
+## Checklist
+  - Controller support
+  - Windows build
+  - Web build
+  - Make Itch.io page
+
+## Sounds
+  - ~~~Orb shoot~~~
+  - ~~~Orb fizzle~~~
+  - ~~~Blast~~~
+  - ~~~Take damage~~~
+  - ~~~Monster damage~~~
+  - ~~~Monster die~~~
+  - ~~~Player Die~~~
+  - ~~~Music~~~
+  - ~~~Combine with DNA~~~
+  - ~~~Collect Helix~~~
+
+## Polish Things
+  - Intro info screen
+  - Main menu
+
   - Metagame for spending points after dying
   - Camera zooms in for DNA collection
   - Better enemy sprites lol

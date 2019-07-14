@@ -171,6 +171,8 @@ MonoBehaviour:
   attackRange: 4
   aggressiveness: 0.7
   responsiveness: 10
+  monsterHitAudio: {fileID: 8300000, guid: 0328aae935eae40e7a4e3db1a158e34f, type: 3}
+  monsterDieAudio: {fileID: 8300000, guid: ede43eb99969a4651b4f4c82569ae543, type: 3}
   rigidBody: {fileID: 50260845376447444}
   target: {fileID: 0}
   spriteAnimator: {fileID: 95975157874298460}

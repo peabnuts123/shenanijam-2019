@@ -203,6 +203,7 @@ MonoBehaviour:
   rigidBody: {fileID: 50188619989661302}
   projectileSpriteObject: {fileID: 1152064604202714}
   fizzleSpriteObject: {fileID: 1646183184957766}
+  orbFizzleAudio: {fileID: 8300000, guid: 0d4438066cd3b422396d04c245edca87, type: 3}
   damage: 2
 --- !u!114 &114599779241391866
 MonoBehaviour:
